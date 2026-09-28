@@ -83,6 +83,7 @@ export function CardView({
         onClick={onClick}
       >
         <div className="card-face w-full h-full flex flex-col p-1">
+          <img src={card.image ?? `/cards/${card.suit}-${card.number}.webp`} alt="" aria-hidden="true" className="absolute inset-0 w-full h-full object-cover opacity-75" />
           {/* 4-corner numbers */}
           <div className="flex justify-between items-start">
             <span className={`${s.num} font-bold text-white text-shadow-strong leading-none`}>{mc.number}</span>
@@ -151,6 +152,7 @@ export function CardView({
         onClick={onClick}
       >
         <div className="card-face w-full h-full flex flex-col p-1">
+          <img src={card.image ?? `/cards/${card.suit}-${card.number}.webp`} alt="" aria-hidden="true" className="absolute inset-0 w-full h-full object-cover opacity-75" />
           <div className="flex justify-between items-start">
             <span className={`${s.num} font-bold text-white text-shadow-strong leading-none`}>{tc.number}</span>
             <span className={`${s.text}`}>🥂</span>
@@ -185,6 +187,7 @@ export function CardView({
       onClick={onClick}
     >
       <div className="card-face w-full h-full flex flex-col p-1">
+          <img src={card.image ?? `/cards/${card.suit}-${card.number}.webp`} alt="" aria-hidden="true" className="absolute inset-0 w-full h-full object-cover opacity-75" />
         <div className="flex justify-between items-start">
           <span className={`${s.num} font-bold text-white text-shadow-strong leading-none`}>{mg.number}</span>
           <span className={`${s.text}`}>🪙</span>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CARTAS COMPLETAS - 48 CARTAS - COLECCIÓN ESPAÑOLA FANTASÍA OSCURA</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Cinzel+Decorative:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0A0A0B;color:#E8E0D0;font-family:'Cinzel',serif;min-height:100vh}
+.header{position:sticky;top:0;z-index:20;background:#0A0A0B;border-bottom:1px solid #2A2218;padding:18px 20px;text-align:center}
+.header h1{font-family:'Cinzel Decorative',serif;font-weight:700;font-size:28px;letter-spacing:0.08em;margin-bottom:16px}
+.menu{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.menu button{background:#1A1410;border:2px solid #4A3C2A;color:#C8B8A0;padding:12px 22px;border-radius:6px;font-family:'Cinzel',serif;font-weight:700;font-size:12px;letter-spacing:0.14em;cursor:pointer;transition:all 0.2s}
+.menu button.active{border-color:#C8A84A;color:#F0E0A0;background:#2A2410;box-shadow:0 0 0 1px #C8A84A,0 4px 12px rgba(200,168,74,0.18)}
+.menu button:hover{border-color:#6A5A2A;transform:translateY(-1px)}
+.viewer{position:relative;width:100%;min-height:calc(100vh - 110px)}
+.viewer iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:none;background:#0A0A0B}
+.viewer iframe.active{display:block}
+.footer{text-align:center;padding:16px;font-size:10px;color:#5A5040;letter-spacing:0.1em;border-top:1px solid #1A1410}
+</style>
+</head>
+<body>
+<div class="header">
+<h1>CARTAS COMPLETAS — 48 CARTAS</h1>
+<div class="menu">
+<button data-group="espadas" class="active" onclick="showGroup('espadas')">ESPADAS [12]</button>
+<button data-group="bastos" onclick="showGroup('bastos')">BASTOS [12]</button>
+<button data-group="trampas" onclick="showGroup('trampas')">TRAMPAS [12]</button>
+<button data-group="magicas" onclick="showGroup('magicas')">MÁGICAS [12]</button>
+</div>
+</div>
+<div class="viewer">
+<!-- Cada iframe está aislado: no hay conflictos CSS/JS/IDs -->
+<iframe id="frame-espadas" class="active" sandbox="allow-scripts allow-same-origin allow-downloads allow-popups" src="cartas_mosntruos_espadas.html"></iframe>
+<iframe id="frame-bastos" sandbox="allow-scripts allow-same-origin allow-downloads allow-popups" src="cartas_mosntruos_bastos.html"></iframe>
+<iframe id="frame-trampas" sandbox="allow-scripts allow-same-origin allow-downloads allow-popups" src="cartas_trampas.html"></iframe>
+<iframe id="frame-magicas" sandbox="allow-scripts allow-same-origin allow-downloads allow-popups" src="cartas_magicas.html"></iframe>
+</div>
+<div class="footer">48 CARTAS EXACTAS • ESPADAS, BASTOS, TRAMPAS COPAS, MÁGICAS OROS • NOMBRES, ILUSTRACIONES, LORE, ATQ/DEF, EFECTOS EXACTOS PRESERVADOS • FUNCIONAMIENTO ORIGINAL INTACTO</div>
+<script>
+function showGroup(name){
+  document.querySelectorAll('.viewer iframe').forEach(f=>f.classList.remove('active'));
+  document.querySelectorAll('.menu button').forEach(b=>b.classList.remove('active'));
+  const frame = document.getElementById('frame-'+name);
+  const btn = document.querySelector(`[data-group="${name}"]`);
+  if(frame) frame.classList.add('active');
+  if(btn) btn.classList.add('active');
+}
+</script>
+</body>
+</html>

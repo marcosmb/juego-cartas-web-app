@@ -9,6 +9,7 @@ export interface MonsterCard {
   name: string;
   atk: number;
   def: number;
+  image: string;
 }
 
 export interface TrapCard {
@@ -19,6 +20,7 @@ export interface TrapCard {
   name: string;
   description: string;
   effect: TrapEffect;
+  image: string;
 }
 
 export interface MagicCard {
@@ -30,6 +32,7 @@ export interface MagicCard {
   description: string;
   effect: MagicEffect;
   placement: 'instant' | 'field';
+  image?: string;
 }
 
 export type Card = MonsterCard | TrapCard | MagicCard;
@@ -65,18 +68,18 @@ export type MagicEffect =
   | { kind: 'clean_opp_field' };                    // 12: limpieza campo rival
 
 export const TRAPS: TrapCard[] = [
-  { id: 't1', type: 'trap', suit: 'copas', number: 1, name: '+5 PV por turno', description: 'Cada turno que esta carta esté en un Monstruo, ganas 5 PV.', effect: { kind: 'heal_per_turn', amount: 5 } },
-  { id: 't2', type: 'trap', suit: 'copas', number: 2, name: 'Destrucción 2+1', description: 'Destrúyese a sí misma: destruye 2 Monstruos tuyos y 1 del rival.', effect: { kind: 'destroy_2_self_1_opp' } },
-  { id: 't3', type: 'trap', suit: 'copas', number: 3, name: 'Dado y conteo', description: 'Tira el dado, cuenta desde este Monstruo (izq→der, saltando huecos). El Monstruo donde cae se destruye.', effect: { kind: 'dice_count_field' } },
-  { id: 't4', type: 'trap', suit: 'copas', number: 4, name: 'Devolver daño', description: 'El daño que recibas al morir un Monstruo se devuelve al adversario.', effect: { kind: 'reflect_damage' } },
-  { id: 't5', type: 'trap', suit: 'copas', number: 5, name: 'Negar ataque', description: 'Niega el ataque y destruye una Trampa o Mágica del adversario.', effect: { kind: 'negate_destroy_card' } },
-  { id: 't6', type: 'trap', suit: 'copas', number: 6, name: 'Dado 4+', description: 'Tira el dado. Si sale 4 o más, el Monstruo atacante se destruye.', effect: { kind: 'dice_4plus_destroy' } },
-  { id: 't7', type: 'trap', suit: 'copas', number: 7, name: 'Cambiar atacante', description: 'Cambia el Monstruo que te ataca por el tuyo.', effect: { kind: 'swap_attacker' } },
-  { id: 't8', type: 'trap', suit: 'copas', number: 8, name: 'Eliminar atacante', description: 'Elimina al Monstruo que te ha atacado.', effect: { kind: 'destroy_attacker' } },
-  { id: 't9', type: 'trap', suit: 'copas', number: 9, name: 'Tres turnos', description: 'Puesta, en tres turnos destruye un Monstruo.', effect: { kind: 'three_turns_kill' } },
-  { id: 't10', type: 'trap', suit: 'copas', number: 10, name: 'Control 2 turnos', description: 'El Monstruo que te ataca es tuyo durante dos turnos.', effect: { kind: 'control_two_turns' } },
-  { id: 't11', type: 'trap', suit: 'copas', number: 11, name: 'Muerte 2 turnos', description: 'El Monstruo atacante muere después de dos turnos.', effect: { kind: 'death_after_two_turns' } },
-  { id: 't12', type: 'trap', suit: 'copas', number: 12, name: '-5 PV por turno', description: 'Cada turno que esta carta esté en un Monstruo, el rival pierde 5 PV.', effect: { kind: 'damage_per_turn', amount: 5 } },
+  { id: 't1', type: 'trap', suit: 'copas', number: 1, name: '+5 PV por turno', description: 'Cada turno que esta carta esté en un Monstruo, ganas 5 PV.', effect: { kind: 'heal_per_turn', amount: 5 }, image: '/cards/copas-1.webp' },
+  { id: 't2', type: 'trap', suit: 'copas', number: 2, name: 'Destrucción 2+1', description: 'Destrúyese a sí misma: destruye 2 Monstruos tuyos y 1 del rival.', effect: { kind: 'destroy_2_self_1_opp' }, image: '/cards/copas-2.webp' },
+  { id: 't3', type: 'trap', suit: 'copas', number: 3, name: 'Dado y conteo', description: 'Tira el dado, cuenta desde este Monstruo (izq→der, saltando huecos). El Monstruo donde cae se destruye.', effect: { kind: 'dice_count_field' }, image: '/cards/copas-3.webp' },
+  { id: 't4', type: 'trap', suit: 'copas', number: 4, name: 'Devolver daño', description: 'El daño que recibas al morir un Monstruo se devuelve al adversario.', effect: { kind: 'reflect_damage' }, image: '/cards/copas-4.webp' },
+  { id: 't5', type: 'trap', suit: 'copas', number: 5, name: 'Negar ataque', description: 'Niega el ataque y destruye una Trampa o Mágica del adversario.', effect: { kind: 'negate_destroy_card' }, image: '/cards/copas-5.webp' },
+  { id: 't6', type: 'trap', suit: 'copas', number: 6, name: 'Dado 4+', description: 'Tira el dado. Si sale 4 o más, el Monstruo atacante se destruye.', effect: { kind: 'dice_4plus_destroy' }, image: '/cards/copas-6.webp' },
+  { id: 't7', type: 'trap', suit: 'copas', number: 7, name: 'Cambiar atacante', description: 'Cambia el Monstruo que te ataca por el tuyo.', effect: { kind: 'swap_attacker' }, image: '/cards/copas-7.webp' },
+  { id: 't8', type: 'trap', suit: 'copas', number: 8, name: 'Eliminar atacante', description: 'Elimina al Monstruo que te ha atacado.', effect: { kind: 'destroy_attacker' }, image: '/cards/copas-8.webp' },
+  { id: 't9', type: 'trap', suit: 'copas', number: 9, name: 'Tres turnos', description: 'Puesta, en tres turnos destruye un Monstruo.', effect: { kind: 'three_turns_kill' }, image: '/cards/copas-9.webp' },
+  { id: 't10', type: 'trap', suit: 'copas', number: 10, name: 'Control 2 turnos', description: 'El Monstruo que te ataca es tuyo durante dos turnos.', effect: { kind: 'control_two_turns' }, image: '/cards/copas-10.webp' },
+  { id: 't11', type: 'trap', suit: 'copas', number: 11, name: 'Muerte 2 turnos', description: 'El Monstruo atacante muere después de dos turnos.', effect: { kind: 'death_after_two_turns' }, image: '/cards/copas-11.webp' },
+  { id: 't12', type: 'trap', suit: 'copas', number: 12, name: '-5 PV por turno', description: 'Cada turno que esta carta esté en un Monstruo, el rival pierde 5 PV.', effect: { kind: 'damage_per_turn', amount: 5 }, image: '/cards/copas-12.webp' },
 ];
 
 export const MAGICS: MagicCard[] = [
@@ -116,6 +119,7 @@ export function buildMonsterCards(suit: 'espadas' | 'bastos'): MonsterCard[] {
       name: names[suit][i],
       atk: n,
       def: n,
+      image: `/cards/${suit}-${n}.webp`,
     };
   });
 }
