@@ -60,6 +60,12 @@ function checkWinner(players: [PlayerState, PlayerState]): 0 | 1 | null {
   return null;
 }
 
+const MAX_CARDS_PER_TURN = 3;
+
+function hasCardInHand(player: PlayerState, cardId: string): boolean {
+  return player.hand.some((card) => card.id === cardId);
+}
+
 function playCardFromHand(player: PlayerState, cardId: string): PlayerState {
   return { ...player, hand: player.hand.filter((c) => c.id !== cardId), cardsPlayedThisTurn: player.cardsPlayedThisTurn + 1 };
 }
@@ -440,7 +446,8 @@ function reducer(state: GameState, action: Action): GameState {
     case 'SUMMON_MONSTER': {
       if (state.phase !== 'playing') return state;
       const cp = state.currentPlayer;
-      if (state.players[cp].cardsPlayedThisTurn >= 3) return state;
+      if (state.players[cp].cardsPlayedThisTurn >= MAX_CARDS_PER_TURN) return state;
+      if (!hasCardInHand(state.players[cp], action.card.id)) return state;
       if (!hasEmptySlot(state.players[cp])) return state;
       const slot = getFirstEmptySlot(state.players[cp]);
       const fm: FieldMonster = {
@@ -472,14 +479,15 @@ function reducer(state: GameState, action: Action): GameState {
     case 'SELECT_TRAP_PLACE': {
       if (state.phase !== 'playing') return state;
       const cp = state.currentPlayer;
-      if (state.players[cp].cardsPlayedThisTurn >= 3) return state;
+      if (state.players[cp].cardsPlayedThisTurn >= MAX_CARDS_PER_TURN) return state;
+      if (!hasCardInHand(state.players[cp], action.card.id)) return state;
       return { ...state, selection: { kind: 'place-trap', card: action.card } };
     }
     case 'PLACE_TRAP_ON_MONSTER': {
       if (state.phase !== 'playing') return state;
       const cp = state.currentPlayer;
       const fm = findFieldMonster(state.players[cp], action.fieldUid);
-      if (!fm || fm.trap) return state;
+      if (!hasCardInHand(state.players[cp], action.card.id) || !fm || fm.trap) return state;
       const players = [...state.players] as [PlayerState, PlayerState];
       players[cp] = updateFieldMonster(players[cp], action.fieldUid, (f) => ({ ...f, trap: action.card }));
       players[cp] = playCardFromHand(players[cp], action.card.id);
@@ -488,7 +496,8 @@ function reducer(state: GameState, action: Action): GameState {
     case 'SELECT_MAGIC': {
       if (state.phase !== 'playing') return state;
       const cp = state.currentPlayer;
-      if (state.players[cp].cardsPlayedThisTurn >= 3) return state;
+      if (state.players[cp].cardsPlayedThisTurn >= MAX_CARDS_PER_TURN) return state;
+      if (!hasCardInHand(state.players[cp], action.card.id)) return state;
       const eff = action.card.effect;
       // Instant magics that need no target
       if (eff.kind === 'steal_hand_card' || eff.kind === 'hand_swap' || eff.kind === 'revive_monster' ||
