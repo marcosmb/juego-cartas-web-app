@@ -31,6 +31,8 @@ export interface PlayerState {
 }
 
 export type Phase = 'start' | 'pass' | 'playing' | 'trap-response' | 'dice-roll' | 'game-over';
+export type GameMode = 'local' | 'cpu';
+export type Difficulty = 'easy' | 'normal' | 'hard';
 
 export type SelectionMode =
   | { kind: 'none' }
@@ -46,7 +48,8 @@ export interface PendingDice {
 }
 
 export type Action =
-  | { type: 'START_GAME' }
+  | { type: 'START_GAME'; mode?: GameMode; difficulty?: Difficulty }
+  | { type: 'CPU_PLAY' }
   | { type: 'CONFIRM_START' }
   | { type: 'CONFIRM_PASS' }
   | { type: 'SUMMON_MONSTER'; card: MonsterCard; position: Position }
@@ -76,6 +79,8 @@ export interface CombatResult {
 
 export interface GameState {
   phase: Phase;
+  mode: GameMode;
+  difficulty: Difficulty;
   currentPlayer: 0 | 1;
   turnCount: number;
   players: [PlayerState, PlayerState];

@@ -1,8 +1,8 @@
-import { useReducer } from 'react';
+import { useEffect, useReducer } from 'react';
+import { buildCpuTurn, cpuDelay } from './cpu';
 import {
   buildDeck,
   rollDie,
-  type Card,
   type MagicCard,
   type MonsterCard,
   type TrapCard,
@@ -32,6 +32,8 @@ function genUid(): string {
 function initialState(): GameState {
   return {
     phase: 'start',
+    mode: 'local',
+    difficulty: 'normal',
     currentPlayer: 0,
     turnCount: 0,
     players: [
@@ -422,6 +424,8 @@ function applyTurnStartEffects(state: GameState, playerIdx: 0 | 1): GameState {
 function reducer(state: GameState, action: Action): GameState {
   switch (action.type) {
     case 'START_GAME': {
+      const mode = action.mode ?? 'local';
+      const difficulty = action.difficulty ?? 'normal';
       const deck = shuffleDeck(buildDeck());
       let p1 = createPlayer(0, 'Jugador 1', deck);
       p1 = drawCards(p1, 7);
@@ -430,7 +434,9 @@ function reducer(state: GameState, action: Action): GameState {
       p2 = drawCards(p2, 7);
       return {
         ...initialState(),
-        phase: 'pass',
+        mode,
+        difficulty,
+        phase: mode === 'cpu' ? 'playing' : 'pass',
         passTarget: 0,
         players: [p1, p2],
         currentPlayer: 0,
@@ -840,5 +846,21 @@ function executeCombat(state: GameState, attackerUid: string, defenderUid: strin
 
 export function useGame() {
   const [state, dispatch] = useReducer(reducer, undefined, initialState);
+
+  useEffect(() => {
+    if (state.mode !== 'cpu' || state.phase === 'game-over' || state.currentPlayer !== 1) return;
+
+    const delay = cpuDelay(state.difficulty);
+    const timer = window.setTimeout(() => {
+      if (state.phase === 'pass') dispatch({ type: 'CONFIRM_PASS' });
+      const actions = buildCpuTurn(state);
+      actions.forEach((action, index) => {
+        window.setTimeout(() => dispatch(action), (index + 1) * delay);
+      });
+    }, delay);
+
+    return () => window.clearTimeout(timer);
+  }, [state.mode, state.phase, state.currentPlayer, state.turnCount, state.difficulty]);
+
   return { state, dispatch };
 }
